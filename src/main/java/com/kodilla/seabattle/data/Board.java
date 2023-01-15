@@ -5,14 +5,36 @@ import java.util.List;
 
 public class Board {
 
-    private int rows;
-    private int columns;
+    private static int rowsCount = 15;
+    private static int columnsCount = 15;
 
-    private List<String> row = new ArrayList<>();
-    private List<String> column = new ArrayList<>();
+    private  List<String> rows = new ArrayList<>();
+    private  List<String> columns = new ArrayList<>();
 
-    public Board(int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
+    public Board() {
+
+        for (int i = 1; i<= rowsCount; i++) {
+            rows.add(Integer.toString(i));
+        }
+        for (int j = 0; j< columnsCount; j++) {
+            String alphabet = "abcdefghijklmnopqrstuvwxyz";
+            columns.add(Character.toString(alphabet.charAt(j)));
+        }
+    }
+
+    public static int getRowsCount() {
+        return rowsCount;
+    }
+
+    public static int getColumnsCount() {
+        return columnsCount;
+    }
+
+    public  List<String> getRows() {
+        return rows;
+    }
+
+    public  List<String> getColumns() {
+        return columns;
     }
 }

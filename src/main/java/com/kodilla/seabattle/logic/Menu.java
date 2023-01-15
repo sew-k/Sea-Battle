@@ -1,39 +1,82 @@
 package com.kodilla.seabattle.logic;
 
-import com.kodilla.seabattle.presentation.Drawer;
+import com.kodilla.seabattle.data.ScoreBoard;
+import com.kodilla.seabattle.presentation.Keyboard;
+import com.kodilla.seabattle.presentation.Printer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Menu {
-
+public class Menu extends Options {
+    private final String choicesTitle = "Game Menu";
     private final List<String> options = new ArrayList<>(Arrays.asList("Start Game","Settings","Score Board","Exit"));
 
 
     public List<String> getOptions() {
         return options;
     }
+    @Override
+    public String getChoicesTitle() {
+        return choicesTitle;
+    }
+    @Override
+    public void selectOption() {
 
-    public boolean selectOption(int selection) {
+        super.selectOption();
+
+        Settings settings = new Settings();
+        Keyboard keyboard = new Keyboard();
         Validator validator = new Validator();
-        Drawer drawer = new Drawer();
+        Printer printer = new Printer();
         GameProcessor processor = new GameProcessor();
-        if (validator.validateForMenu(selection)) {
-            if (selection == 0) {
-                processor.startGame();
-            } else if (selection == 1) {
-                processor.showSettings();
-            } else if (selection == 2) {
-                processor.showScoreBoard();
-            } else if (selection == 3) {
-                processor.exitGame();
-            }
+        ScoreBoard scoreBoard = new ScoreBoard();
 
-            return true;
-        } else {
-            drawer.incorrectSelectionMessage();
-            return false;
+        boolean incorrect = true;
+
+        while (incorrect) {
+            int key = keyboard.getInt();
+            if (validator.validateForChoices(key, this)) {
+                if (key == 0) {
+                    processor.startGame();
+                } else if (key == 1) {
+                    printer.titleOfChoicesPrinter(settings);
+                    printer.optionsPrinter(settings);
+                    settings.selectOption();
+                } else if (key == 2) {
+                    printer.showScoreBoard();
+                    processor.processGame();
+                } else if (key == 3) {
+                    processor.exitGame();
+                }
+                return;
+            } else {
+                printer.incorrectSelectionMessage();
+            }
         }
     }
+
+
+//    public void showGameMenu() {
+//        Settings settings = new Settings();
+//        Printer printer = new Printer();
+//        Keyboard keyboard = new Keyboard();
+//        Validator validator = new Validator();
+//
+//
+//        printer.askForSelect();
+//        boolean incorrect = true;
+//
+//        while (incorrect) {
+//            int key = keyboard.getInt();
+//            if (validator.validateForMenu(key)) {
+//
+//                menu.selectOption(key);
+//
+//                //return;
+//            } else {
+//                printer.incorrectSelectionMessage();
+//            }
+//        }
+//    }
 }

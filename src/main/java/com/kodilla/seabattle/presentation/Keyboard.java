@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Keyboard {
     public String key;
 
-    public String getKey() {
+    public String getString() {
         Scanner scanner = new Scanner(System.in);
         String result = scanner.next();
         return result;
