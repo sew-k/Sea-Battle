@@ -1,6 +1,7 @@
 package com.kodilla.seabattle.data;
 
 import com.kodilla.seabattle.presentation.Keyboard;
+import com.kodilla.seabattle.presentation.Printer;
 
 import java.util.*;
 
@@ -40,11 +41,13 @@ public class ComputerPlayer extends Player {
 
     @Override
     public String selectTarget() {
+        Printer printer = new Printer();
         Board board = new Board();
         Random randomRow = new Random();
         Random randomColumn = new Random();
         String target = (board.getColumns().get(randomColumn.nextInt(board.getColumns().size())) +
                 board.getRows().get(randomRow.nextInt(board.getRows().size())));
+        printer.printTarget(target);
         return target;
     }
 }

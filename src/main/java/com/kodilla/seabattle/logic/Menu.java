@@ -17,14 +17,13 @@ public class Menu extends Options {
         return options;
     }
     @Override
-    public String getChoicesTitle() {
+    public String getOptionsTitle() {
         return choicesTitle;
     }
     @Override
     public void selectOption() {
 
         super.selectOption();
-
         Settings settings = new Settings();
         Keyboard keyboard = new Keyboard();
         Validator validator = new Validator();
@@ -32,15 +31,14 @@ public class Menu extends Options {
         GameProcessor processor = new GameProcessor();
         ScoreBoard scoreBoard = new ScoreBoard();
 
-        boolean incorrect = true;
+        boolean incorrect = false;
 
-        while (incorrect) {
+        while (!incorrect) {
             int key = keyboard.getInt();
-            if (validator.validateForChoices(key, this)) {
+            if (validator.validateForOptions(key, this)) {
                 if (key == 0) {
                     processor.startGame();
                 } else if (key == 1) {
-                    printer.titleOfChoicesPrinter(settings);
                     printer.optionsPrinter(settings);
                     settings.selectOption();
                 } else if (key == 2) {

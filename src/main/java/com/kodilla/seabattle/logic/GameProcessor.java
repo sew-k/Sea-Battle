@@ -22,18 +22,14 @@ public class GameProcessor {
 
     public void startGame() {
 
-        //temporarily
-        System.out.println("start game");
-
         Printer printer = new Printer();
         Keyboard keyboard = new Keyboard();
 
         printer.boardDrawer();
+
         Player humanPlayer = new HumanPlayer();
         printer.askForPlayerName();
         humanPlayer.setName(keyboard.getString());
-
-        System.out.println("your name is: " + humanPlayer.getName());
 
         setPlayerOne(humanPlayer);
         printer.askForSetShips(playerOne);
@@ -42,6 +38,8 @@ public class GameProcessor {
         System.out.println(ship2.getSize());
         System.out.println(ship2.getStatusOnBoard());
 
+
+        setPlayerOne(humanPlayer);
         setPlayerTwo(new ComputerPlayer());
         Ship ship3 = new Ship();
         playerTwo.addShip(ship3);
@@ -50,7 +48,6 @@ public class GameProcessor {
         //printer.playersBoardDrawer(playerTwo);
 
         boolean battleEnd = false;
-
         while (!battleEnd) {
             singleRoundProcessor();
             Player winner = winnerOfBattleCheck(playerOne, playerTwo);
@@ -61,8 +58,11 @@ public class GameProcessor {
     }
 
     public void singleRoundProcessor() {
-
-        singleShotProcessor(playerOne, playerTwo);
+        Printer printer = new Printer();
+        PlayerTurnOptions playerTurnOptions = new PlayerTurnOptions();
+        printer.optionsPrinter(playerTurnOptions);
+        playerTurnOptions.singleRoundSelectOption(playerOne,playerTwo,this);
+        //singleShotProcessor(playerOne, playerTwo);
         singleShotProcessor(playerTwo, playerOne);
 
     }
@@ -72,6 +72,7 @@ public class GameProcessor {
         Validator validator = new Validator();
         Board board = new Board();
         String target;
+        printer.hostileBoardDrawer(attacker, defender);
         printer.askForTarget(attacker);
         target = attacker.selectTarget();
 
@@ -83,15 +84,25 @@ public class GameProcessor {
             }
 
             //temporarily
-            printer.printPlayerShots(attacker);
-            printer.printPlayerShips(defender);
+            //printer.printPlayerShots(attacker);
+            //printer.printPlayerShips(defender);
+            //printer.playersBoardDrawer(defender);
 
+        } else {
+            printer.targetOutOfBoardMessage();
         }
 
-        Player winner = null;
+        Player winner;
+        Player loser;
         winner = winnerOfBattleCheck(playerOne,playerTwo);
         if (winner != null) {
             winner.setScore(1);
+            if (winner.equals(playerOne)) {
+                loser = playerTwo;
+            } else {
+                loser = playerOne;
+            }
+            printer.playersBoardDrawer(loser);
             playerWinGame(winner);
         }
 
@@ -125,7 +136,6 @@ public class GameProcessor {
         Printer printer = new Printer();
         Menu menu = new Menu();
         printer.titlePrinter();
-        printer.titleOfChoicesPrinter(menu);
         printer.optionsPrinter(menu);
         menu.selectOption();
     }

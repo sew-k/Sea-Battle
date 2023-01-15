@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Board {
 
-    private static int rowsCount = 15;
-    private static int columnsCount = 15;
+    private static int rowsCount = 5;
+    private static int columnsCount = 5;
 
     private  List<String> rows = new ArrayList<>();
     private  List<String> columns = new ArrayList<>();

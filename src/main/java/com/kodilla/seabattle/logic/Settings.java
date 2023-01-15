@@ -1,10 +1,14 @@
 package com.kodilla.seabattle.logic;
 
+import com.kodilla.seabattle.data.ScoreBoard;
+import com.kodilla.seabattle.presentation.Keyboard;
+import com.kodilla.seabattle.presentation.Printer;
+
 import java.util.*;
 
 public class Settings extends Options {
-    private final String choicesTitle = "Game Settings";
-    private final List<String> settings = new ArrayList<>(Arrays.asList("ships configuration","players"));
+    private final String optionsTitle = "Game Settings";
+    private final List<String> settings = new ArrayList<>(Arrays.asList("Ships configuration", "Players", "Game board size", "Exit settings"));
     private static Map<Integer,Integer> shipCountSettings = new HashMap<>();
     private static boolean onePlayerGame = true;
 
@@ -22,8 +26,8 @@ public class Settings extends Options {
         return settings;
     }
     @Override
-    public String getChoicesTitle() {
-        return choicesTitle;
+    public String getOptionsTitle() {
+        return optionsTitle;
     }
 
     public static Map<Integer, Integer> getShipCountSettings() {
@@ -40,5 +44,46 @@ public class Settings extends Options {
 
     public static void setOnePlayerGame(boolean onePlayerGame) {
         Settings.onePlayerGame = onePlayerGame;
+    }
+
+    @Override
+    public void selectOption() {
+
+        super.selectOption();
+        Keyboard keyboard = new Keyboard();
+        Validator validator = new Validator();
+        Printer printer = new Printer();
+        GameProcessor processor = new GameProcessor();
+
+        //temporarily
+        setShipCountSettings();
+
+        boolean incorrect = false;
+
+        while (!incorrect) {
+            int key = keyboard.getInt();
+            if (validator.validateForOptions(key, this)) {
+                if (key == 0) {
+                    Map<Integer,Integer> shipCountSettings = getShipCountSettings();
+                    printer.printShipCountSettings(shipCountSettings);
+                    printer.optionsPrinter(this);
+                    selectOption();
+                } else if (key == 1) {
+                    printer.playerOptionsPrinter();
+                    printer.optionsPrinter(this);
+                    selectOption();
+                    //selectOption();
+                } else if (key == 2) {
+                    printer.printGameBoardSettings();
+                    printer.optionsPrinter(this);
+                    selectOption();
+                } else if (key == 3) {
+                    processor.processGame();
+                }
+                return;
+            } else {
+                printer.incorrectSelectionMessage();
+            }
+        }
     }
 }
