@@ -57,27 +57,24 @@ public class Settings extends Options {
 
         //temporarily
         setShipCountSettings();
-
-        boolean incorrect = false;
-
-        while (!incorrect) {
-            int key = keyboard.getInt();
+        boolean end = false;
+        while (!end) {
+            String key = keyboard.getString();
             if (validator.validateForOptions(key, this)) {
-                if (key == 0) {
+                if (Integer.parseInt(key) == 0) {
                     Map<Integer,Integer> shipCountSettings = getShipCountSettings();
                     printer.printShipCountSettings(shipCountSettings);
                     printer.optionsPrinter(this);
                     selectOption();
-                } else if (key == 1) {
+                } else if (Integer.parseInt(key) == 1) {
                     printer.playerOptionsPrinter();
                     printer.optionsPrinter(this);
                     selectOption();
-                    //selectOption();
-                } else if (key == 2) {
+                } else if (Integer.parseInt(key) == 2) {
                     printer.printGameBoardSettings();
                     printer.optionsPrinter(this);
                     selectOption();
-                } else if (key == 3) {
+                } else if (Integer.parseInt(key) == 3) {
                     processor.processGame();
                 }
                 return;

@@ -19,8 +19,6 @@ public abstract class Options {
 
     public void selectOption() {
 
-        Printer printer = new Printer();
-        printer.askForSelect();
     }
 
 }

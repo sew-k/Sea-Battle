@@ -14,7 +14,7 @@ import java.util.Set;
 public class Printer {
 
     public void optionsPrinter(Options options) {
-        System.out.println("----------------------------");
+        System.out.println("\n----------------------------");
         System.out.println(options.getOptionsTitle());
         for (String choicePosition : options.getOptions()) {
             System.out.println("[" + options.getOptions().indexOf(choicePosition) + "] - " + choicePosition);
@@ -24,11 +24,17 @@ public class Printer {
     public void titlePrinter() {
         System.out.println("============================");
         System.out.println("SEA BATTLE");
-        System.out.println("----------------------------");
     }
 
     public void askForTarget(Player player) {
-        System.out.print(player.getName() + ", please select your target on the board: ");
+        System.out.print(" - " + player.getName() + ", please select your target on the board: ");
+    }
+
+    public void askForField(Player player) {
+        System.out.print(" - " + player.getName() + ", please select field on the board: ");
+    }
+    public void askForNextField(Player player) {
+        System.out.print(" - " + player.getName() + ", please select next field on the board: ");
     }
     public void printTarget(String target) {
         System.out.println(target);
@@ -46,13 +52,28 @@ public class Printer {
 
     public void printShipCountSettings(Map<Integer,Integer> shipCountSettings) {
         for (Map.Entry<Integer,Integer> entry : shipCountSettings.entrySet()) {
-            String shipSize = "";
-            for (int i=0; i< entry.getKey(); i++) {
-                shipSize = shipSize + "[]";
+            if (entry.getValue() != 0) {
+                String shipSize = "";
+                for (int i = 0; i < entry.getKey(); i++) {
+                    shipSize = shipSize + "[]";
+                }
+                System.out.println("Quantity of " + shipSize + " is: " + entry.getValue());
             }
-            System.out.println("Quantity of " + shipSize + " is: " + entry.getValue());
         }
+    }
 
+    public void printShip(Ship ship) {
+            System.out.println(ship);
+    }
+
+    public void askForSetUpShip(Ship ship) {
+        System.out.print("\nTrying set up ship: ");
+        printShip(ship);
+    }
+
+    public void printShipAdded(Ship ship) {
+        System.out.print("Successfully added ship: ");
+        printShip(ship);
     }
 
     public void playerOptionsPrinter() {
@@ -73,7 +94,7 @@ public class Printer {
         System.out.print("Please enter your name: ");
     }
     public void askForSetShips(Player player) {
-        System.out.println(player.getName() + ", please set up your ships.");
+        System.out.println("\n" + player.getName() + ", please set up your ships.\n");
     }
 
     public void incorrectSelectionMessage() {
@@ -95,7 +116,7 @@ public class Printer {
         System.out.println("");
         for (int r = 0; r< board.getRowsCount(); r++) {
             String spacing = "   ";
-            int rowNumber = Integer.parseInt(board.getRows().get(r))+1;
+            int rowNumber = Integer.parseInt(board.getRows().get(r));
             if (rowNumber >= 10) {
                 spacing = "  ";
             }
@@ -114,6 +135,10 @@ public class Printer {
         }
     }
 
+    public void whoseTurnInformation(Player player) {
+        System.out.println("\nPlayer '" + player.getName() + "' turn!");
+    }
+
     public void printPlayerShips(Player player) {
         System.out.println("List of ships player '" + player.getName() + "':");
         player.getShips().stream()
@@ -123,6 +148,14 @@ public class Printer {
 
     public void printWinner(Player winner) {
         System.out.println("Player " + winner.getName() + " win the game!");
+    }
+
+    public void printShipBufferZone(Ship ship) {
+        for (String field : ship.getBufferZone()) {
+            System.out.println(" - printing buffer zone of ship");
+            System.out.println("(" + field + ")");
+            System.out.println("-------------------");
+        }
     }
 
     public void playersBoardDrawer(Player player) {

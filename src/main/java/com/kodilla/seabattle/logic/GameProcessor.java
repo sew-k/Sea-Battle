@@ -4,52 +4,44 @@ import com.kodilla.seabattle.data.*;
 import com.kodilla.seabattle.presentation.Printer;
 import com.kodilla.seabattle.presentation.Keyboard;
 
-import java.util.Map;
-
 public class GameProcessor {
 
     private Player playerOne;
     private Player playerTwo;
 
-
-
     public void exitGame() {
         //temporarily
         System.out.println("exit game");
-
     }
-
 
     public void startGame() {
 
         Printer printer = new Printer();
         Keyboard keyboard = new Keyboard();
+        Settings settings = new Settings();
 
         printer.boardDrawer();
+        settings.setShipCountSettings();
 
         Player humanPlayer = new HumanPlayer();
         printer.askForPlayerName();
         humanPlayer.setName(keyboard.getString());
 
         setPlayerOne(humanPlayer);
-        printer.askForSetShips(playerOne);
-        Ship ship2 = new Ship();
-        playerOne.addShip(ship2);
-        System.out.println(ship2.getSize());
-        System.out.println(ship2.getStatusOnBoard());
-
-
-        setPlayerOne(humanPlayer);
         setPlayerTwo(new ComputerPlayer());
-        Ship ship3 = new Ship();
-        playerTwo.addShip(ship3);
 
-        //printer.playersBoardDrawer(playerOne);
-        //printer.playersBoardDrawer(playerTwo);
+        printer.askForSetShips(playerOne);
+        playerOne.shipsSetUp();
+
+        printer.askForSetShips(playerTwo);
+        playerTwo.shipsSetUp();
+
+        printer.playersBoardDrawer(playerOne);
+        printer.playersBoardDrawer(playerTwo);
 
         boolean battleEnd = false;
         while (!battleEnd) {
-            singleRoundProcessor();
+            battleEnd = !singleRoundProcessor(playerOne, playerTwo);
             Player winner = winnerOfBattleCheck(playerOne, playerTwo);
             if (winner != null) {
                 battleEnd = true;
@@ -57,14 +49,27 @@ public class GameProcessor {
         }
     }
 
-    public void singleRoundProcessor() {
-        Printer printer = new Printer();
-        PlayerTurnOptions playerTurnOptions = new PlayerTurnOptions();
-        printer.optionsPrinter(playerTurnOptions);
-        playerTurnOptions.singleRoundSelectOption(playerOne,playerTwo,this);
-        //singleShotProcessor(playerOne, playerTwo);
-        singleShotProcessor(playerTwo, playerOne);
+    public boolean singleRoundProcessor(Player playerOne, Player playerTwo) {
 
+        if ((singleTurnProcessor(playerOne,playerTwo)) == false) {
+            return false;
+        }
+        if ((singleTurnProcessor(playerTwo,playerOne)) == false)  {
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean singleTurnProcessor(Player currentPlayer, Player otherPlayer) {
+        PlayerTurnOptions playerTurnOptions = new PlayerTurnOptions();
+        if (currentPlayer.getName().equals("Computer")) {
+            singleShotProcessor(currentPlayer, otherPlayer);
+        } else {
+            if (playerTurnOptions.singleRoundSelectOption(currentPlayer,otherPlayer,this) == false) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void singleShotProcessor(Player attacker, Player defender) {
@@ -72,26 +77,26 @@ public class GameProcessor {
         Validator validator = new Validator();
         Board board = new Board();
         String target;
+        printer.whoseTurnInformation(attacker);
         printer.hostileBoardDrawer(attacker, defender);
         printer.askForTarget(attacker);
         target = attacker.selectTarget();
-
-        if (validator.validateIsTargetOnBoard(target, board)) {
-            attacker.addShot(target);
-            for (Ship ship : defender.getShips()) {
-                ship.getStatusOnBoard().replace(target,"hit");
-                ship.checkIfShipSink();
+        boolean shotFired = false;
+        while (!shotFired) {
+            if (validator.validateIsTargetOnBoard(target, board)) {
+                attacker.addShot(target);
+                for (Ship ship : defender.getShips()) {
+                    ship.getStatusOnBoard().replace(target, "hit");
+                    ship.checkIfShipSink();
+                }
+                shotFired = true;
+            } else {
+                printer.targetOutOfBoardMessage();
+                printer.askForTarget(attacker);
+                target = attacker.selectTarget();
             }
-
-            //temporarily
-            //printer.printPlayerShots(attacker);
-            //printer.printPlayerShips(defender);
-            //printer.playersBoardDrawer(defender);
-
-        } else {
-            printer.targetOutOfBoardMessage();
         }
-
+        printer.hostileBoardDrawer(attacker, defender);
         Player winner;
         Player loser;
         winner = winnerOfBattleCheck(playerOne,playerTwo);
@@ -105,7 +110,6 @@ public class GameProcessor {
             printer.playersBoardDrawer(loser);
             playerWinGame(winner);
         }
-
     }
 
     public Player winnerOfBattleCheck(Player playerOne, Player playerTwo) {

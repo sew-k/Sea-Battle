@@ -1,26 +1,13 @@
 package com.kodilla.seabattle.data;
 
-import com.kodilla.seabattle.presentation.Printer;
-
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Ship {
 
     private int size;
     private Map<String,String> statusOnBoard = new HashMap<>();
-
-
-    public Ship() {
-        //temporarily
-        //Ship ship = new Ship();
-
-        this.size = 2;
-        Map<String,String> statusOnBoard = new HashMap<>();
-        statusOnBoard.put("b2","good");
-        statusOnBoard.put("b3", "good");
-        this.statusOnBoard = statusOnBoard;
-
-    }
+    private Set<String> bufferZone = new HashSet<>();
 
     public int getSize() {
         return size;
@@ -39,6 +26,77 @@ public class Ship {
 
         if (size != ship.size) return false;
         return Objects.equals(statusOnBoard, ship.statusOnBoard);
+    }
+    @Override
+    public String toString() {
+
+        String result = "";
+        if (getSize() != getStatusOnBoard().size()) {
+            String field = "?";
+            String shipSize = "";
+            for (int i = 0; i < getSize(); i++) {
+                shipSize = shipSize + "[" + field + "]";
+            }
+            result = shipSize;
+        } else if (getSize() == getStatusOnBoard().size()) {
+            String shipSimpleString = "";
+            String field = "?";
+            for (Map.Entry<String,String> entry : getStatusOnBoard().entrySet()) {
+                if (entry.getKey() != null) {
+                    field = entry.getKey();
+                }
+            shipSimpleString = shipSimpleString + "[" + field + "]";
+            }
+            result = shipSimpleString;
+        }
+        return result;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setStatusOnBoard(Map<String, String> statusOnBoard) {
+        this.statusOnBoard = statusOnBoard;
+    }
+
+    public Set<String> getBufferZone() {
+        return bufferZone;
+    }
+
+    public void setBufferZone() {
+        Set<String> setOfFields = new HashSet<>();
+        String row;
+        String column;
+        Board board = new Board();
+        setOfFields = getStatusOnBoard().entrySet().stream()
+                .map(e->e.getKey())
+                .collect(Collectors.toSet());
+
+        System.out.println("printing temporary ship fields");
+        for (String s : setOfFields) {
+            System.out.println(s);
+        }
+
+        Set<String> fieldSet = new HashSet<>();
+        for (String field : setOfFields) {
+            fieldSet.addAll(board.allAroundFieldsOfBufferZoneIfAvailable(field).stream().collect(Collectors.toSet()));
+            System.out.println("fieldset: " + fieldSet);
+            System.out.println("set of fields: " + setOfFields);
+        }
+        setOfFields.addAll(fieldSet);
+
+        System.out.println("printing temporary ship fields with buffer zone");
+        System.out.println("set of fields: " + setOfFields);
+
+        for (Map.Entry<String,String> entry : getStatusOnBoard().entrySet()) {
+                    setOfFields.remove(entry.getKey());
+        }
+
+        System.out.println("printing buffer zone only");
+        System.out.println("set of fields: " + setOfFields);
+
+        this.bufferZone = setOfFields;
     }
 
     @Override

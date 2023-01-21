@@ -26,43 +26,41 @@ public class PlayerTurnOptions extends Options {
     }
 
 
-    public void singleRoundSelectOption(Player playerOne, Player playerTwo, GameProcessor processor) {
+    public boolean singleRoundSelectOption(Player playerOne, Player playerTwo, GameProcessor processor) {
 
         super.selectOption();
         Keyboard keyboard = new Keyboard();
         Validator validator = new Validator();
         Printer printer = new Printer();
 
-        boolean incorrect = false;
+        boolean end = false;
 
-        while (!incorrect) {
-            int key = keyboard.getInt();
+        while (!end) {
+            printer.optionsPrinter(this);
+            printer.askForSelect();
+            String key = keyboard.getString();
             if (validator.validateForOptions(key, this)) {
-                if (key == 0) {
+                if (Integer.parseInt(key) == 0) {
                     processor.singleShotProcessor(playerOne, playerTwo);
-                } else if (key == 1) {
+                    return true;
+                } else if (Integer.parseInt(key) == 1) {
                     printer.printPlayerShots(playerOne);
-                    printer.optionsPrinter(this);
-                    singleRoundSelectOption(playerOne, playerTwo, processor);
-                } else if (key == 2) {
+                } else if (Integer.parseInt(key) == 2) {
                     printer.printPlayerShips(playerOne);
-                    printer.optionsPrinter(this);
-                    singleRoundSelectOption(playerOne, playerTwo, processor);
-                } else if (key == 3) {
+                } else if (Integer.parseInt(key) == 3) {
                     printer.playersBoardDrawer(playerOne);
-                    printer.optionsPrinter(this);
-                    singleRoundSelectOption(playerOne, playerTwo, processor);
-                } else if (key == 4) {
+                } else if (Integer.parseInt(key) == 4) {
                     printer.hostileBoardDrawer(playerOne,playerTwo);
-                    printer.optionsPrinter(this);
-                    singleRoundSelectOption(playerOne, playerTwo, processor);
-                } else if (key == 5) {
+                } else if (Integer.parseInt(key) == 5) {
+                    end = true;
                     processor.processGame();
+                    return false;
                 }
-                return;
+
             } else {
                 printer.incorrectSelectionMessage();
             }
         }
+        return true;
     }
 }
