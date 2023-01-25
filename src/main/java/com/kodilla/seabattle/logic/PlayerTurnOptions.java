@@ -13,8 +13,6 @@ public class PlayerTurnOptions extends Options {
     private final List<String> options = new ArrayList<>(Arrays.asList("Shot","List of shots","Status of my ships",
             "Show my game board","Show hostile game board", "Exit battle"));
 
-
-
     @Override
     public List<String> getOptions() {
         return options;
@@ -56,7 +54,6 @@ public class PlayerTurnOptions extends Options {
                     processor.processGame();
                     return false;
                 }
-
             } else {
                 printer.incorrectSelectionMessage();
             }

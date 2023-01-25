@@ -50,6 +50,11 @@ public class Printer {
         System.out.println("----------------------------");
     }
 
+    public void printChangeSettingsOrLeave() {
+        Settings settings = new Settings();
+        System.out.print(" - press key [" + settings.getKeyForChangeSettings() + "] to change, or press [" + settings.getKeyForLeaveSettings() + "] to leave: ");
+    }
+
     public void printShipCountSettings(Map<Integer,Integer> shipCountSettings) {
         for (Map.Entry<Integer,Integer> entry : shipCountSettings.entrySet()) {
             if (entry.getValue() != 0) {
@@ -60,6 +65,25 @@ public class Printer {
                 System.out.println("Quantity of " + shipSize + " is: " + entry.getValue());
             }
         }
+    }
+
+    public void printShipSettingsToChange(int shipSize) {
+        String shipSizeString = "";
+        for (int i = 0; i < shipSize; i++) {
+            shipSizeString = shipSizeString + "[]";
+        }
+        System.out.print("Set quantity of " + shipSizeString + ": ");
+    }
+    public void printExitGame() {
+        System.out.println("exit game");
+    }
+
+
+    public void askToSetNewNumberOfColumns() {
+        System.out.print("- please set new number of Columns (3-26 max): ");
+    }
+    public void askToSetNewNumberOfRows() {
+        System.out.print("- please set new number of Rows (3-26 max): ");
     }
 
     public void printShip(Ship ship) {

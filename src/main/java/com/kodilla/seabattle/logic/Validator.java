@@ -8,16 +8,8 @@ import java.util.Map;
 
 public class Validator {
 
-//    public boolean validateForOptions(int input, Options options) {
-//        boolean result = false;
-//        if ((input >= 0) && (input <= (options.getOptions().size()-1))) {
-//            result = true;
-//        }
-//        return result;
-//    }
     public boolean validateForOptions(String keys, Options options) {
         boolean result = false;
-        //keys = keys.substring(0,1);
         if ("0123456789".contains(keys)) {
             int input = Integer.parseInt(keys);
             if ((input >= 0) && (input <= (options.getOptions().size()-1))) {
@@ -25,6 +17,15 @@ public class Validator {
             }
         }
         return result;
+    }
+
+    public boolean validateForChangeSettings(String keys, Options options) {
+        Settings settings = new Settings();
+        if ((keys.equals(settings.getKeyForChangeSettings())) || (keys.equals(settings.getKeyForLeaveSettings()))) {
+            return true;
+            } else {
+            return false;
+        }
     }
 
     public boolean validateIsTargetOnBoard(String target, Board board) {
@@ -65,7 +66,6 @@ public class Validator {
     public boolean validateFieldToSetUpShip(String newField, Ship ship, Player player) {
         boolean checkIfFieldAlreadyChosen = player.getShips().stream()
                 .flatMap(ship1 -> ship1.getStatusOnBoard().entrySet().stream())
-                //.filter(e -> e.getKey() == newField)
                 .anyMatch(e -> e.getKey() == newField);
         return false;
     }

@@ -10,8 +10,8 @@ public class GameProcessor {
     private Player playerTwo;
 
     public void exitGame() {
-        //temporarily
-        System.out.println("exit game");
+        Printer printer = new Printer();
+        printer.printExitGame();
     }
 
     public void startGame() {
@@ -21,7 +21,7 @@ public class GameProcessor {
         Settings settings = new Settings();
 
         printer.boardDrawer();
-        settings.setShipCountSettings();
+        //settings.setDefaultShipCountSettings();
 
         Player humanPlayer = new HumanPlayer();
         printer.askForPlayerName();

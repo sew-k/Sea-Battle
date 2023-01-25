@@ -24,9 +24,17 @@ public class Board {
         }
     }
 
+    public static void setRowsCount(int rowsCount) {
+        Board.rowsCount = rowsCount;
+    }
+
+    public static void setColumnsCount(int columnsCount) {
+        Board.columnsCount = columnsCount;
+    }
+
     public String nextRowIfAvailable(String field) {
         String nextRow = null;
-        String column = field.substring(0,1);
+        //String column = field.substring(0,1);
         String row;
         if (field.length() > 2) {
             row = field.substring(1,3);
@@ -41,7 +49,7 @@ public class Board {
 
     public String previousRowIfAvailable(String field) {
         String previousRow = null;
-        String column = field.substring(0,1);
+        //String column = field.substring(0,1);
         String row;
         if (field.length() > 2) {
             row = field.substring(1,3);
@@ -57,12 +65,12 @@ public class Board {
     public String nextColumnIfAvailable(String field) {
         String nextColumn = null;
         String column = field.substring(0,1);
-        String row;
-        if (field.length() > 2) {
-            row = field.substring(1,3);
-        } else {
-            row = field.substring(1,2);
-        }
+//        String row;
+//        if (field.length() > 2) {
+//            row = field.substring(1,3);
+//        } else {
+//            row = field.substring(1,2);
+//        }
         if (this.columns.indexOf(column) < (this.columns.size() - 1)) {
             nextColumn = this.columns.get(this.columns.indexOf(column) + 1);
         }
@@ -72,12 +80,12 @@ public class Board {
     public String previousColumnIfAvailable(String field) {
         String previousColumn = null;
         String column = field.substring(0,1);
-        String row;
-        if (field.length() > 2) {
-            row = field.substring(1,3);
-        } else {
-            row = field.substring(1,2);
-        }
+//        String row;
+//        if (field.length() > 2) {
+//            row = field.substring(1,3);
+//        } else {
+//            row = field.substring(1,2);
+//        }
         if (this.columns.indexOf(column) > 0) {
             previousColumn = this.columns.get(this.columns.indexOf(column) - 1);
         }

@@ -78,8 +78,8 @@ public class HumanPlayer extends Player {
         Map<Integer,Integer> shipCountSettings = Settings.getShipCountSettings();
 
         setAvailableFieldsOnBoard();
-        System.out.println("available fields: " + getAvailableFieldsOnBoard());
-        System.out.println("all fields: " + board.getAllFieldsOnBoard());
+//        System.out.println("available fields: " + getAvailableFieldsOnBoard());
+//        System.out.println("all fields: " + board.getAllFieldsOnBoard());
 
         for (Map.Entry<Integer,Integer> entry : shipCountSettings.entrySet()) {
                 for (int j=0; j< entry.getValue(); j++) {
@@ -99,19 +99,19 @@ public class HumanPlayer extends Player {
                             }
                             boolean correct = false;
                             while (!correct) {
-                                printer.printTarget("available fields for ship: " + getAvailableFieldsForShipSetUp(ship));
+                                //printer.printTarget("available fields for ship: " + getAvailableFieldsForShipSetUp(ship));
 
                                 String temporaryField = keyboard.getString();
-
                                 shipStatus = ship.getStatusOnBoard();
 
                                 if (getAvailableFieldsForShipSetUp(ship).contains(temporaryField)) {
-                                    System.out.println("temporary field ok");
+                                    //System.out.println("temporary field ok");
                                     shipStatus.put(temporaryField, "good");
-                                    System.out.println("saved to shipstatus");
+                                    //System.out.println("saved to shipstatus");
                                     correct = true;
                                 } else {
-                                    System.out.println("temporary field NOT ok");
+                                    //System.out.println("temporary field NOT ok");
+                                    printer.incorrectSelectionMessage();
                                     printer.askForField(this);
                                 }
                             }
@@ -126,7 +126,7 @@ public class HumanPlayer extends Player {
                     printer.printShipAdded(ship);
                     printer.printShipBufferZone(ship);
                     printer.playersBoardDrawer(this);
-                    System.out.println("available fields: " + getAvailableFieldsOnBoard());
+                    //System.out.println("available fields: " + getAvailableFieldsOnBoard());
                 }
         }
     }

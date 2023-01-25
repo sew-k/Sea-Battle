@@ -89,8 +89,8 @@ public class ComputerPlayer extends Player {
         Map<Integer,Integer> shipCountSettings = Settings.getShipCountSettings();
 
         setAvailableFieldsOnBoard();
-        System.out.println("available fields: " + getAvailableFieldsOnBoard());
-        System.out.println("all fields: " + board.getAllFieldsOnBoard());
+//        System.out.println("available fields: " + getAvailableFieldsOnBoard());
+//        System.out.println("all fields: " + board.getAllFieldsOnBoard());
 
         for (Map.Entry<Integer,Integer> entry : shipCountSettings.entrySet()) {
             for (int j=0; j< entry.getValue(); j++) {
@@ -116,7 +116,7 @@ public class ComputerPlayer extends Player {
                                 .filter(c->getAvailableFieldsOnBoard().contains(c))
                                 .toList();
 
-                        printer.printTarget("available fields for ship: " + availableFieldsForShipSetUp);
+                        //printer.printTarget("available fields for ship: " + availableFieldsForShipSetUp);
 
                         String temporaryField = availableFieldsForShipSetUp.get(random.nextInt(0,availableFieldsForShipSetUp.size()));
 
@@ -135,7 +135,7 @@ public class ComputerPlayer extends Player {
                 printer.printShipBufferZone(ship);
                 printer.playersBoardDrawer(this);
                 //printer.printPlayerShips(this);
-                System.out.println("available fields: " + getAvailableFieldsOnBoard());
+                //System.out.println("available fields: " + getAvailableFieldsOnBoard());
             }
         }
     }

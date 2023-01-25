@@ -73,28 +73,28 @@ public class Ship {
                 .map(e->e.getKey())
                 .collect(Collectors.toSet());
 
-        System.out.println("printing temporary ship fields");
-        for (String s : setOfFields) {
-            System.out.println(s);
-        }
+//        System.out.println("printing temporary ship fields");
+//        for (String s : setOfFields) {
+//            System.out.println(s);
+//        }
 
         Set<String> fieldSet = new HashSet<>();
         for (String field : setOfFields) {
             fieldSet.addAll(board.allAroundFieldsOfBufferZoneIfAvailable(field).stream().collect(Collectors.toSet()));
-            System.out.println("fieldset: " + fieldSet);
-            System.out.println("set of fields: " + setOfFields);
+//            System.out.println("fieldset: " + fieldSet);
+//            System.out.println("set of fields: " + setOfFields);
         }
         setOfFields.addAll(fieldSet);
-
-        System.out.println("printing temporary ship fields with buffer zone");
-        System.out.println("set of fields: " + setOfFields);
+//
+//        System.out.println("printing temporary ship fields with buffer zone");
+//        System.out.println("set of fields: " + setOfFields);
 
         for (Map.Entry<String,String> entry : getStatusOnBoard().entrySet()) {
                     setOfFields.remove(entry.getKey());
         }
-
-        System.out.println("printing buffer zone only");
-        System.out.println("set of fields: " + setOfFields);
+//
+//        System.out.println("printing buffer zone only");
+//        System.out.println("set of fields: " + setOfFields);
 
         this.bufferZone = setOfFields;
     }
