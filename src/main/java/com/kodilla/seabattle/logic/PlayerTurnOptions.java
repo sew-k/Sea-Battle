@@ -51,7 +51,6 @@ public class PlayerTurnOptions extends Options {
                     printer.hostileBoardDrawer(playerOne,playerTwo);
                 } else if (Integer.parseInt(key) == 5) {
                     end = true;
-                    processor.processGame();
                     return false;
                 }
             } else {

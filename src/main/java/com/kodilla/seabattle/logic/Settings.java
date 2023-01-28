@@ -86,7 +86,6 @@ public class Settings extends Options {
         Validator validator = new Validator();
         Printer printer = new Printer();
         GameProcessor processor = new GameProcessor();
-        //setDefaultShipCountSettings();
         printer.askForSelect();
         boolean end = false;
         while (!end) {
